@@ -8,10 +8,21 @@ import FoodCard from '../../../components/FoodCard/FoodCard';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+// import './styles.css';
+
+// import required modules
+import { Pagination } from 'swiper/modules';
+
 
 const Order = () => {
-    const categories = ['salad','pizza','soup','dessert','drinks']
-    const {category} = useParams();
+    const categories = ['salad', 'pizza', 'soup', 'dessert', 'drinks']
+    const { category } = useParams();
     const initialIndex = categories.indexOf(category)
     const [tabIndex, setTabIndex] = useState(initialIndex);
     const [menu] = useMenu();
@@ -20,10 +31,17 @@ const Order = () => {
     const soup = menu.filter(item => item.category === 'soup')
     const salad = menu.filter(item => item.category === 'salad')
     const drinks = menu.filter(item => item.category === 'drinks')
+    const pagination = {
+        clickable: true,
+        renderBullet: function (index, className) {
+            return '<span class="' + className + '">' + (index + 1) + '</span>';
+        }
+    }
+
 
     return (
         <div className='text-center'>
-             <Helmet>
+            <Helmet>
                 <title>FlavorFleet | Order Food</title>
             </Helmet>
             {/* <h1>order</h1> */}
@@ -37,15 +55,36 @@ const Order = () => {
                     <Tab>Drinks</Tab>
                 </TabList>
                 <TabPanel>
-                    <div className='grid md:grid-cols-3 gap-10'>
-                        {
+                    <div>
+                        {/* {
                             salad.map(food =>
                                 <FoodCard
                                     key={food._id}
                                     item={food}
                                 ></FoodCard>
                             )
-                        }
+                        } */}
+                        <Swiper
+                            pagination={pagination}
+                            modules={[Pagination]}
+                            className="mySwiper"
+                        >
+                            <SwiperSlide>
+                                <div className='grid md:grid-cols-3 gap-10'>
+
+                                {
+                                    salad.map(food =>
+                                        <FoodCard
+                                        key={food._id}
+                                        item={food}
+                                        ></FoodCard>
+                                    )
+                                }
+                                </div>
+
+                            </SwiperSlide>
+
+                        </Swiper>
                     </div>
                 </TabPanel>
                 <TabPanel>
