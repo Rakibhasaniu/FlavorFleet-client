@@ -1,9 +1,17 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import { AuthContext } from '../../providers/AuthProviders';
+import { Link } from 'react-router-dom';
+
+
+
+
 const Login = () => {
     const captchaRef = useRef(null)
     const [disable,setDisable] = useState(true)
+
+    const {loginUser,logOut,createUser,loading,user} = useContext(AuthContext)
     useEffect(() => {
         loadCaptchaEnginge(6)
     },[])
@@ -35,7 +43,12 @@ const Login = () => {
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email,password)
+        // console.log(email,password)
+        loginUser(email,password)
+        .then(result => {
+            const user = result.user
+            console.log(user)
+        })
     }
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -80,6 +93,7 @@ const Login = () => {
                             value="Login" />
                         </div>
                     </form>
+                    <p className='text-center'> <small>New Here? <Link to="/register">Create An Account</Link> </small> </p>
                 </div>
             </div>
         </div>
