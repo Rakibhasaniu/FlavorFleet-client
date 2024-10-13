@@ -2,7 +2,8 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProviders';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 
 
@@ -10,6 +11,10 @@ import { Link } from 'react-router-dom';
 const Login = () => {
     const captchaRef = useRef(null)
     const [disable,setDisable] = useState(true)
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/'
 
     const {loginUser,logOut,createUser,loading,user} = useContext(AuthContext)
     useEffect(() => {
@@ -43,11 +48,29 @@ const Login = () => {
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        // console.log(email,password)
+        console.log(email,password)
         loginUser(email,password)
         .then(result => {
             const user = result.user
             console.log(user)
+            Swal.fire({
+                title: "Login Success",
+                showClass: {
+                  popup: `
+                    animate__animated
+                    animate__fadeInUp
+                    animate__faster
+                  `
+                },
+                hideClass: {
+                  popup: `
+                    animate__animated
+                    animate__fadeOutDown
+                    animate__faster
+                  `
+                }
+              });
+              navigate(from,{replace:true})
         })
     }
     return (
