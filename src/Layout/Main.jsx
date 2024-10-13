@@ -9,7 +9,8 @@ const Main = () => {
         <div>
             { notHeaderFooter  || <Navbar></Navbar>}
             <Outlet></Outlet>
-            { notHeaderFooter ||<Footer></Footer>}
+            { notHeaderFooter ||
+            <Footer></Footer>}
         </div>
     );
 };
