@@ -1,8 +1,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
+import useAuth from "../../hooks/useAuth";
+
+
+
 const FoodCard = ({item}) => {
     const {image,recipe,price,name} = item;
+
+    const {user} =useAuth()
+
+    const addToCart = (food) => {
+        console.log(food)
+    }
 
     return (
         <div className="card bg-base-100 w-96 shadow-xl">
@@ -17,7 +27,9 @@ const FoodCard = ({item}) => {
                 <h2 className="card-title">{name}</h2>
                 <p>{recipe}</p>
                 <div className="card-actions">
-                <button className="btn btn-outline border-0 border-b-4 border-orange-500 mt-4">Order Now</button>
+                <button
+                onClick={()=>addToCart(item)}
+                 className="btn btn-outline border-0 border-b-4 border-orange-500 mt-4">Order Now</button>
                 </div>
             </div>
         </div>
