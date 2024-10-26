@@ -1,11 +1,77 @@
+import useCart from "../../../hooks/useCart";
 
 
 const Cart = () => {
+    const [cart] = useCart();
+    const totalPrice = cart.reduce((total, item) => total + item.price, 0)
     return (
         <div>
-            <h2 className="tet-6xl">
-                My Cart
-            </h2>
+            <div className="flex justify-evenly mb-8">
+                <h4 className="text-4xl">
+                    Items: {cart.length}
+                </h4>
+                <h4 className="text-4xl">
+                    Total Price: {totalPrice}
+                </h4>
+                <button className="btn btn-primary">Pay</button>
+            </div>
+            {/* Table */}
+            <div className="overflow-x-auto">
+                <table className="table     ">
+                    {/* head */}
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            cart.map((item,index) =>
+
+                                <tr key={item._id}>
+                                    <th>
+                                        <label>
+                                            {index}
+                                        </label>
+                                    </th>
+                                    <td>
+                                        <div className="flex items-center gap-3">
+                                            <div className="avatar">
+                                                <div className="mask mask-squircle h-12 w-12">
+                                                    <img
+                                                        src={item.image}
+                                                        alt="Avatar Tailwind CSS Component" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {item.name}
+                                        
+                                    </td>
+                                    <td>
+                                        {item.price}
+                                    </td>
+                                    <th>
+                                        <button className="btn btn-ghost btn-xs">Delete</button>
+                                    </th>
+                                </tr>
+                            )
+                        }
+
+
+                    </tbody>
+
+
+                </table>
+            </div>
         </div>
     );
 };
